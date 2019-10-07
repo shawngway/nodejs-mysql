@@ -68,20 +68,40 @@ function stockCheck(id, orderSize) {
         if (err) throw err;
         // console.log(res);
         order = parseInt(orderSize);
-        stock = parseInt(res[0].stock_quantity)
+        stock = parseInt(res[0].stock_quantity);
+        price = parseInt(res[0].price)
         console.log("There are only " + stock + " " + res[0].product_name + " in stock");
         if (order > stock) {
             console.log("So sorry we do not have enough of those in stock! :(");
             //create a set timeout so this is shown before we re show the initialize
-        } else{
-            console.log("Your order has been place!")
-            //as before place a set timeout so this is shown then we re show the initialize
-            stockUpdate(id, order, stock);
+        } else {
+
+            stockUpdate(id, order, stock, price);
         }
     })
 }
 
-function stockUpdate(item, order, stock){
+function stockUpdate(item, order, stock, price) {
+    console.log("Your order has been place!");
+    const orderCost = price * order;
     // console.log(item, order, stock);
-    
-}
+    const newStock = stock - order;
+    const query = connection.query(
+        "UPDATE products SET ? WHERE ?",
+        [
+            {
+                stock_quantity: newStock
+            },
+            {
+                item_id: item
+            }
+        ],
+        function (err, res) {
+            if (err) throw err;
+            console.log("Your order has been place!")
+            console.log("Your order total is: $" + orderCost);
+            productMenu();
+        }
+    );
+
+};
