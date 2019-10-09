@@ -21,7 +21,7 @@ connection.connect((err) => {
     productMenu();
 });
 
-function productMenu() {
+function productMenu(orderCost) {
     console.log("These are the products in stock\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
@@ -82,7 +82,6 @@ function stockCheck(id, orderSize) {
 }
 
 function stockUpdate(item, order, stock, price) {
-    console.log("Your order has been place!");
     const orderCost = price * order;
     // console.log(item, order, stock);
     const newStock = stock - order;
@@ -100,8 +99,9 @@ function stockUpdate(item, order, stock, price) {
             if (err) throw err;
             console.log("Your order has been place!")
             console.log("Your order total is: $" + orderCost);
-            productMenu();
+            productMenu(orderCost);
         }
+        
     );
 
 };
