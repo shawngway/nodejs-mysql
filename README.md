@@ -9,7 +9,7 @@ npm mysql
 sql querys
 
 Video for operation:
-
+https://github.com/shawngway/nodejs-mysql/raw/master/video/bamazoneCustomer.mp4
 
 by: Shawn Galloway
 
